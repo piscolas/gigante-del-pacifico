@@ -7,8 +7,8 @@ import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
 
-function Create() {
-  const [clientList, setClientList] = useState([]);
+function Product() {
+  const [productList, setProductList] = useState([]);
   const [rol, setRol] = useState("");
   const [name, setName] = useState("");
   const [operatorId, setOperatorId] = useState("");
@@ -68,8 +68,8 @@ function Create() {
   }
 
   useEffect(() => {
-    api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setClientList(res.data.data);
+    api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+      setProductList(res.data.data);
     })
     setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
   }, [])
@@ -133,7 +133,7 @@ function Create() {
               </tr>
             </thead>
             <tbody>
-              {clientList?.map((client) => (
+              {productList?.map((client) => (
                 <tr key={client.id}>
                   <td>{client.id}</td>
                   <td>{client.name}</td>
@@ -206,4 +206,4 @@ function Create() {
   )
 }
 
-export default Create;
+export default Product;

@@ -6,7 +6,8 @@ import {
   BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
 import App from './App';
-import Create from './pages/client/Create';
+import Client from './pages/client';
+import Product from './pages/product';
 import Dashboard from './pages/user/Dashboard';
 import "./styles/global.css";
 
@@ -19,8 +20,11 @@ root.render(
         <Route path="/user/dashboard">
           <Dashboard />
         </Route>
-        <Route path="/client/create">
-          <Create />
+        <Route path="/client">
+          <Client />
+        </Route>
+        <Route path="/product">
+          <Product />
         </Route>
         {/* <Route path="/">
         <Home />
