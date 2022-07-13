@@ -1,0 +1,39 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+}
+
+.columnInfo {
+  background-color: #000;
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  font-size: 72px;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.columnForm {
+  background-color: #c9c9c9;
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  width: 80%;
+}
+
+.button {
+  color: black;  
+}
