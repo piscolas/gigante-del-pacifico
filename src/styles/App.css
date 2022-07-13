@@ -1,12 +1,11 @@
 .container {
   width: 100vw;
   height: 100vh;
-
   display: flex;
 }
 
 .columnInfo {
-  background-color: #000;
+  background-color: #343a40;
   width: 50%;
   height: 100vh;
   display: flex;
@@ -17,11 +16,11 @@
 .logo {
   font-size: 72px;
   letter-spacing: 1px;
-  color: #fff;
+  color: #f4f6f9;
 }
 
 .columnForm {
-  background-color: #c9c9c9;
+  background-color: #f4f6f9;
   width: 50%;
   height: 100vh;
   display: flex;
