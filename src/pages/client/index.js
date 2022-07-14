@@ -53,7 +53,6 @@ function Client() {
       operatorId,
       active: isActive
     }
-    console.log(data, idClient)
 
     api.put(`/clients/${idClient}`, data).then(response => {
       console.log(response.status)

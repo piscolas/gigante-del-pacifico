@@ -8,7 +8,7 @@ import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
 
 function User() {
-  const [clientList, setClientList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -17,20 +17,24 @@ function User() {
   const [isActive, setIsActive] = useState(false);
   const [idUser, setIdUser] = useState("");
 
-  function changeStates(client) {
-    setRol(client.rol);
-    setName(client.name);
-    setIsActive(client.active);
-    setIdClient(client.id)
+  function changeStates(user) {
+    setName(user.name);
+    setNickname(user.nickname);
+    setPassword(user.password);
+    setLevel(user.level);
+    setIdUser(user.id)
+    setIsActive(user.active);
   }
 
   function onSubmit(event) {
     event.preventDefault()
 
     const data = {
-      rol,
       name,
-      operatorId
+      nickname,
+      password,
+      level,
+      operatorId,
     }
 
     api.post('/clients', data).then(response => {
@@ -51,13 +55,13 @@ function User() {
 
     const data = {
       name,
-      rol,
-      operatorId,
-      active: isActive
+      nickname,
+      password,
+      level,
+      active: isActive,
     }
-    console.log(data, idClient)
 
-    api.put(`/clients/${idClient}`, data).then(response => {
+    api.put(`/users/${idUser}`, data).then(response => {
       console.log(response.status)
 
       if (response.status === 200) {
@@ -70,8 +74,8 @@ function User() {
   }
 
   useEffect(() => {
-    api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setClientList(res.data.data);
+    api.get('/users/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+      setUserList(res.data.data);
     })
     setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
   }, [])
@@ -84,7 +88,7 @@ function User() {
       <div className='content-wrapper d-flex justify-content-center'>
         <div className='w-75 mt-5'>
           <div className='text-center d-flex  justify-content-between m-3'>
-            <h5>Client</h5>
+            <h5>Usuarios</h5>
 
             <button type="button" className="" data-bs-toggle="modal" data-bs-target="#myModal">
               <RiUserAddFill size="30px" />
@@ -96,25 +100,33 @@ function User() {
                 <div className="modal-content">
 
                   <div className="modal-header">
-                    <h4 className="modal-title">Create Client</h4>
+                    <h4 className="modal-title">Create User</h4>
                     <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
                   </div>
 
                   <div className="modal-body">
                     <Form className="form" onSubmit={onSubmit} >
                       <Form.Group className="mb-3 text-left" controlId="formRol">
-                        <Form.Label>Rol</Form.Label>
-                        <Form.Control type="text" placeholder="Rut" onChange={res => setRol(res.target.value)} />
+                        <Form.Label>Nombre</Form.Label>
+                        <Form.Control type="text" placeholder="Nombre" onChange={res => setName(res.target.value)} />
                       </Form.Group>
                       <Form.Group className="mb-3 text-left" controlId="formName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Name" onChange={res => setName(res.target.value)} />
+                        <Form.Label>Nombre usuario</Form.Label>
+                        <Form.Control type="text" placeholder="Nombre usuario" onChange={res => setNickname(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Clave</Form.Label>
+                        <Form.Control type="password" placeholder="Clave" onChange={res => setPassword(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Level</Form.Label>
+                        <Form.Control type="text" placeholder="Level" onChange={res => setLevel(res.target.value)} />
                       </Form.Group>
 
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                         <Button variant="primary" type="submit">
-                          Submit
+                          Crear
                         </Button>
                       </div>
                     </Form>
@@ -127,25 +139,25 @@ function User() {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Rol</th>
+                <th>Nombre</th>
+                <th>Nombre usuario</th>
+                <th>Level</th>
                 <th>Active</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {clientList?.map((client) => (
-                <tr key={client.id}>
-                  <td>{client.id}</td>
-                  <td>{client.name}</td>
-                  <td>{client.rol}</td>
-                  <td>{client.active ? "Activo" : "No activo"}</td>
+              {userList?.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.nickname}</td>
+                  <td>{user.level}</td>
+                  <td>{user.active ? "Activo" : "No activo"}</td>
                   <td>
                     <Button
                       data-bs-toggle="modal"
                       data-bs-target="#myModalUpdate"
-                      onClick={() => { changeStates(client) }}
+                      onClick={() => { changeStates(user) }}
                     >
                       Editar
                     </Button>
@@ -169,13 +181,21 @@ function User() {
 
             <div className="modal-body">
               <Form className="form" onSubmit={updateClient} >
-                <Form.Group className="mb-3 text-left" controlId="formRol">
-                  <Form.Label>Rol</Form.Label>
-                  <Form.Control type="text" placeholder="Rut" defaultValue={rol} onChange={res => setRol(res.target.value)} />
-                </Form.Group>
                 <Form.Group className="mb-3 text-left" controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" placeholder="Name" defaultValue={name} onChange={res => setName(res.target.value)} />
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control type="text" placeholder="Nombre" defaultValue={name} onChange={res => setName(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formNickname">
+                  <Form.Label>Nombre usuario</Form.Label>
+                  <Form.Control type="text" placeholder="Nombre usuario" defaultValue={nickname} onChange={res => setNickname(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formPassword">
+                  <Form.Label>Clave</Form.Label>
+                  <Form.Control type="password" placeholder="Clave" defaultValue={password} onChange={res => setPassword(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formLevel">
+                  <Form.Label>Level</Form.Label>
+                  <Form.Control type="text" placeholder="Level" defaultValue={level} onChange={res => setLevel(res.target.value)} />
                 </Form.Group>
                 <Form.Group className="mb-3 text-left d-flex justify-content-end" controlId="formName">
                   {isActive ? (
@@ -192,9 +212,9 @@ function User() {
                 </Form.Group>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                   <Button variant="primary" type="submit">
-                    Submit
+                    Actualizar
                   </Button>
                 </div>
               </Form>

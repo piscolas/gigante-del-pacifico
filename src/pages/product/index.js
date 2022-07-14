@@ -160,10 +160,10 @@ function Product() {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Nombre</th>
                 <th>MSU</th>
-                <th>price</th>
-                <th>stock</th>
+                <th>Precio</th>
+                <th>Stock</th>
                 <th></th>
               </tr>
             </thead>
