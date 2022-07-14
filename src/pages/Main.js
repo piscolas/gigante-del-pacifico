@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-// import { useHistory } from 'react-router-dom';
-import './styles/App.css';
-import api from './utils/api';
+import { useHistory } from "react-router-dom";
+import '../styles/Main.css';
+import api from '../utils/api';
 
 function Main() {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [operatorId, setOperatorId] = useState('');
 
-  // const history = useHistory();
+  let history = useHistory();
 
   function onSubmit(event) {
     event.preventDefault()
@@ -24,8 +24,12 @@ function Main() {
       console.log(response.status)
 
       if (response.status === 200) {
-        // history.push('/dashboard');
-        console.log(response);
+        if (response.data.data[0].level === 'admin') {
+          history.push('/user/dashboard');
+        }
+        if (response.data.data[0].level === 'seller') {
+          history.push('/seller/dashboard');
+        }
       } else {
         alert('Datos incorrectos');
       }

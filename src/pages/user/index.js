@@ -7,13 +7,15 @@ import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
 
-function Client() {
+function User() {
   const [clientList, setClientList] = useState([]);
-  const [rol, setRol] = useState("");
   const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [password, setPassword] = useState("");
+  const [level, setLevel] = useState("");
   const [operatorId, setOperatorId] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [idClient, setIdClient] = useState("");
+  const [idUser, setIdUser] = useState("");
 
   function changeStates(client) {
     setRol(client.rol);
@@ -82,7 +84,7 @@ function Client() {
       <div className='content-wrapper d-flex justify-content-center'>
         <div className='w-75 mt-5'>
           <div className='text-center d-flex  justify-content-between m-3'>
-            <h5>Cliente</h5>
+            <h5>Client</h5>
 
             <button type="button" className="" data-bs-toggle="modal" data-bs-target="#myModal">
               <RiUserAddFill size="30px" />
@@ -101,18 +103,18 @@ function Client() {
                   <div className="modal-body">
                     <Form className="form" onSubmit={onSubmit} >
                       <Form.Group className="mb-3 text-left" controlId="formRol">
-                        <Form.Label>Rut</Form.Label>
+                        <Form.Label>Rol</Form.Label>
                         <Form.Control type="text" placeholder="Rut" onChange={res => setRol(res.target.value)} />
                       </Form.Group>
                       <Form.Group className="mb-3 text-left" controlId="formName">
-                        <Form.Label>Nombre</Form.Label>
-                        <Form.Control type="text" placeholder="Nombre" onChange={res => setName(res.target.value)} />
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control type="text" placeholder="Name" onChange={res => setName(res.target.value)} />
                       </Form.Group>
 
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <Button variant="primary" type="submit">
-                          Crear
+                          Submit
                         </Button>
                       </div>
                     </Form>
@@ -126,9 +128,9 @@ function Client() {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Nombre</th>
-                <th>Rut</th>
-                <th>Estado</th>
+                <th>Name</th>
+                <th>Rol</th>
+                <th>Active</th>
                 <th></th>
               </tr>
             </thead>
@@ -168,12 +170,12 @@ function Client() {
             <div className="modal-body">
               <Form className="form" onSubmit={updateClient} >
                 <Form.Group className="mb-3 text-left" controlId="formRol">
-                  <Form.Label>Rut</Form.Label>
+                  <Form.Label>Rol</Form.Label>
                   <Form.Control type="text" placeholder="Rut" defaultValue={rol} onChange={res => setRol(res.target.value)} />
                 </Form.Group>
                 <Form.Group className="mb-3 text-left" controlId="formName">
-                  <Form.Label>Nombre</Form.Label>
-                  <Form.Control type="text" placeholder="Nombre" defaultValue={name} onChange={res => setName(res.target.value)} />
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" placeholder="Name" defaultValue={name} onChange={res => setName(res.target.value)} />
                 </Form.Group>
                 <Form.Group className="mb-3 text-left d-flex justify-content-end" controlId="formName">
                   {isActive ? (
@@ -190,9 +192,9 @@ function Client() {
                 </Form.Group>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
                   <Button variant="primary" type="submit">
-                    Actualizar
+                    Submit
                   </Button>
                 </div>
               </Form>
@@ -206,4 +208,4 @@ function Client() {
   )
 }
 
-export default Client;
+export default User;

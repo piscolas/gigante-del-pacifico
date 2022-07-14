@@ -3,39 +3,55 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import { RiUserAddFill } from 'react-icons/ri';
+import { useHistory } from "react-router-dom";
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
 
 function Product() {
   const [productList, setProductList] = useState([]);
-  const [rol, setRol] = useState("");
-  const [name, setName] = useState("");
   const [operatorId, setOperatorId] = useState("");
+  const [MSU, setMSU] = useState("");
+  const [name, setName] = useState("");
+  const [productId, setProductId] = useState("");
+  const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
+  const [MDPrice, setMDPrice] = useState("");
+  const [MDPercentage, setMDPercentage] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [idClient, setIdClient] = useState("");
 
-  function changeStates(client) {
-    setRol(client.rol);
-    setName(client.name);
-    setIsActive(client.active);
-    setIdClient(client.id)
+  let history = useHistory();
+
+  function changeStates(product) {
+    setMSU(product.MSU);
+    setName(product.name);
+    setIsActive(product.active);
+    setProductId(product.id)
+    setPrice(product.price);
+    setStock(product.stock);
+    setMDPrice(product.MDPrice);
+    setMDPercentage(product.MDPercentage);
+
   }
 
   function onSubmit(event) {
     event.preventDefault()
 
     const data = {
-      rol,
+      operatorId,
       name,
-      operatorId
+      MSU,
+      price,
+      stock,
+      MDPrice,
+      MDPercentage,
     }
 
-    api.post('/clients', data).then(response => {
+    api.post('/products', data).then(response => {
       console.log(response.status)
 
       if (response.status === 201) {
-        // history.push('/dashboard');
+        history.push('/product');
         console.log(response);
       } else {
         alert('Datos incorrectos');
@@ -44,22 +60,25 @@ function Product() {
 
   }
 
-  function updateClient(event) {
+  function updateProduct(event) {
     event.preventDefault()
 
     const data = {
-      name,
-      rol,
       operatorId,
+      name,
+      MSU,
+      price,
+      stock,
+      MDPrice,
+      MDPercentage,
       active: isActive
     }
-    console.log(data, idClient)
 
-    api.put(`/clients/${idClient}`, data).then(response => {
+    api.put(`/products/${productId}`, data).then(response => {
       console.log(response.status)
 
       if (response.status === 200) {
-        // history.push('/dashboard');
+        history.push('/product');
         console.log(response);
       } else {
         alert('Datos incorrectos');
@@ -82,7 +101,7 @@ function Product() {
       <div className='content-wrapper d-flex justify-content-center'>
         <div className='w-75 mt-5'>
           <div className='text-center d-flex  justify-content-between m-3'>
-            <h5>Client</h5>
+            <h5>Producto</h5>
 
             <button type="button" className="" data-bs-toggle="modal" data-bs-target="#myModal">
               <RiUserAddFill size="30px" />
@@ -94,25 +113,41 @@ function Product() {
                 <div className="modal-content">
 
                   <div className="modal-header">
-                    <h4 className="modal-title">Create Client</h4>
+                    <h4 className="modal-title">Create Product</h4>
                     <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
                   </div>
 
                   <div className="modal-body">
                     <Form className="form" onSubmit={onSubmit} >
                       <Form.Group className="mb-3 text-left" controlId="formRol">
-                        <Form.Label>Rol</Form.Label>
-                        <Form.Control type="text" placeholder="Rut" onChange={res => setRol(res.target.value)} />
+                        <Form.Label>Nombre</Form.Label>
+                        <Form.Control type="text" placeholder="Nombre" onChange={res => setName(res.target.value)} />
                       </Form.Group>
                       <Form.Group className="mb-3 text-left" controlId="formName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Name" onChange={res => setName(res.target.value)} />
+                        <Form.Label>Unidad Mínima de Venta</Form.Label>
+                        <Form.Control type="text" placeholder="Unidad Mínima de Venta" onChange={res => setMSU(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Precio</Form.Label>
+                        <Form.Control type="text" placeholder="Precio" onChange={res => setPrice(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Stock</Form.Label>
+                        <Form.Control type="text" placeholder="Stock" onChange={res => setStock(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Descuento máximo en precio</Form.Label>
+                        <Form.Control type="text" placeholder="Descuento máximo en precio" onChange={res => setMDPrice(res.target.value)} />
+                      </Form.Group>
+                      <Form.Group className="mb-3 text-left" controlId="formName">
+                        <Form.Label>Descuento máximo en porcentaje</Form.Label>
+                        <Form.Control type="text" placeholder="Descuento máximo en porcentaje" onChange={res => setMDPercentage(res.target.value)} />
                       </Form.Group>
 
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                         <Button variant="primary" type="submit">
-                          Submit
+                          Crear
                         </Button>
                       </div>
                     </Form>
@@ -125,25 +160,25 @@ function Product() {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>Rol</th>
-                <th>Active</th>
+                <th>MSU</th>
+                <th>price</th>
+                <th>stock</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {productList?.map((client) => (
-                <tr key={client.id}>
-                  <td>{client.id}</td>
-                  <td>{client.name}</td>
-                  <td>{client.rol}</td>
-                  <td>{client.active ? "Activo" : "No activo"}</td>
+              {productList?.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{product.MSU}</td>
+                  <td>{product.price}</td>
+                  <td>{product.stock}</td>
                   <td>
                     <Button
                       data-bs-toggle="modal"
                       data-bs-target="#myModalUpdate"
-                      onClick={() => { changeStates(client) }}
+                      onClick={() => { changeStates(product) }}
                     >
                       Editar
                     </Button>
@@ -161,38 +196,55 @@ function Product() {
           <div className="modal-content">
 
             <div className="modal-header">
-              <h4 className="modal-title">Update Client</h4>
+              <h4 className="modal-title">Update Product</h4>
               <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div className="modal-body">
-              <Form className="form" onSubmit={updateClient} >
-                <Form.Group className="mb-3 text-left" controlId="formRol">
-                  <Form.Label>Rol</Form.Label>
-                  <Form.Control type="text" placeholder="Rut" defaultValue={rol} onChange={res => setRol(res.target.value)} />
-                </Form.Group>
+              <Form className="form" onSubmit={updateProduct} >
                 <Form.Group className="mb-3 text-left" controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" placeholder="Name" defaultValue={name} onChange={res => setName(res.target.value)} />
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control type="text" placeholder="Nombre" defaultValue={name} onChange={res => setName(res.target.value)} />
                 </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formMSU">
+                  <Form.Label>Unidad mínima de venta</Form.Label>
+                  <Form.Control type="text" placeholder="Unidad mínima de venta" defaultValue={MSU} onChange={res => setMSU(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formPrice">
+                  <Form.Label>Precio</Form.Label>
+                  <Form.Control type="text" placeholder="Name" defaultValue={price} onChange={res => setPrice(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formStock">
+                  <Form.Label>Stock</Form.Label>
+                  <Form.Control type="text" placeholder="Stock" defaultValue={stock} onChange={res => setStock(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formMDPrice">
+                  <Form.Label>Descuento máximo en precio</Form.Label>
+                  <Form.Control type="text" placeholder="Descuento máximo en precio" defaultValue={MDPrice} onChange={res => setMDPrice(res.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3 text-left" controlId="formMDPercentage">
+                  <Form.Label>Descuento máximo en porcentaje</Form.Label>
+                  <Form.Control type="text" placeholder="Descuento máximo en porcentaje" defaultValue={MDPercentage} onChange={res => setMDPercentage(res.target.value)} />
+                </Form.Group>
+
                 <Form.Group className="mb-3 text-left d-flex justify-content-end" controlId="formName">
                   {isActive ? (
                     <Button className="btn btn-danger" onClick={() => {
                       setIsActive(false)
-                    }}>Desactivar cuenta</Button>
+                    }}>Desactivar producto</Button>
                   ) : (
                     <Button className="btn btn-secondary" onClick={() => {
                       setIsActive(true)
-                    }}>Activar cuenta</Button>
+                    }}>Activar producto</Button>
                   )}
 
 
                 </Form.Group>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                   <Button variant="primary" type="submit">
-                    Submit
+                    Actualizar
                   </Button>
                 </div>
               </Form>

@@ -1,9 +1,10 @@
 import { RiDashboardLine, RiProductHuntLine, RiUser3Fill, RiUser3Line } from "react-icons/ri";
+import { Link } from 'react-router-dom';
 
 
 export function Sidebar() {
   return (
-    <aside className="main-sidebar sidebar-dark-primary elevation-4">
+    <aside className="main-sidebar sidebar-dark-primary elevation-4 vh-100">
 
       <h3 className="text-white"> Pacífico</h3>
 
@@ -22,42 +23,43 @@ export function Sidebar() {
 
             {/* Dashboard*/}
             <li className="nav-item">
-              <a href="pages/calendar.html" className="nav-link">
+              <Link to="/user/dashboard" className="nav-link">
                 <RiDashboardLine />
                 <p className="pl-2">
                   Dashboard
                 </p>
-              </a>
+              </Link>
             </li>
 
             {/* Clients*/}
             <li className="nav-item">
-              <a href="pages/gallery.html" className="nav-link">
+              <Link to="/client" className="nav-link">
                 <RiUser3Line />
                 <p className="pl-2">
                   Clientes
                 </p>
-              </a>
+              </Link>
+
             </li>
 
             {/* Users*/}
             <li className="nav-item">
-              <a href="pages/gallery.html" className="nav-link">
+              <Link to="/user" className="nav-link">
                 <RiUser3Fill />
                 <p className="pl-2">
                   Usuarios
                 </p>
-              </a>
+              </Link>
             </li>
 
             {/* Productos*/}
             <li className="nav-item">
-              <a href="pages/kanban.html" className="nav-link">
+              <Link to="/product" className="nav-link">
                 <RiProductHuntLine />
                 <p className="pl-2">
                   Productos
                 </p>
-              </a>
+              </Link>
             </li>
 
 
