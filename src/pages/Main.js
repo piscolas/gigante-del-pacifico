@@ -24,11 +24,15 @@ function Main() {
       console.log(response.status)
 
       if (response.status === 200) {
+        localStorage.setItem('nickname', nickname);
+        localStorage.setItem('operatorId', operatorId);
+        localStorage.setItem('level', response.data.data[0].level);
+
         if (response.data.data[0].level === 'admin') {
           history.push('/user/dashboard');
         }
         if (response.data.data[0].level === 'seller') {
-          history.push('/seller/dashboard');
+          history.push('/seller');
         }
       } else {
         alert('Datos incorrectos');

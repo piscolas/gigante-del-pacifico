@@ -5,6 +5,8 @@ import {
 import Client from './pages/client';
 import Main from './pages/Main';
 import Product from './pages/product';
+import Seller from './pages/seller';
+import Sales from './pages/seller/Sales'
 import User from './pages/user';
 import Dashboard from './pages/user/Dashboard';
 
@@ -24,6 +26,12 @@ function App() {
         </Route>
         <Route path="/user">
           <User />
+        </Route>
+        <Route path="/seller/sales">
+          <Sales />
+        </Route>
+        <Route path="/seller">
+          <Seller />
         </Route>
         <Route path="/">
           <Main />
