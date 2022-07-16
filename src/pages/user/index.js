@@ -37,7 +37,7 @@ function User() {
       operatorId,
     }
 
-    api.post('/clients', data).then(response => {
+    api.post('/users', data).then(response => {
       console.log(response.status)
 
       if (response.status === 201) {

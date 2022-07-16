@@ -62,37 +62,6 @@ export function Sidebar() {
               </Link>
             </li>
 
-
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon far fa-envelope"></i>
-                <p>
-                  Mailbox
-                  <i className="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="pages/mailbox/mailbox.html" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Inbox</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/mailbox/compose.html" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Compose</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/mailbox/read-mail.html" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Read</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
           </ul>
         </nav>
 
