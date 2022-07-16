@@ -40,6 +40,8 @@ function Client() {
       } else {
         alert('Datos incorrectos');
       }
+    }).catch(error => {
+      console.log(error);
     })
 
   }
@@ -63,13 +65,18 @@ function Client() {
       } else {
         alert('Datos incorrectos');
       }
+    }).catch(error => {
+      console.log(error);
     })
   }
 
   useEffect(() => {
     api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
       setClientList(res.data.data);
+    }).catch(err => {
+      console.log(err)
     })
+
     setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
   }, [])
 

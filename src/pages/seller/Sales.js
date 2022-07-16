@@ -101,12 +101,16 @@ function Sales() {
   useEffect(() => {
     api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
       setProductList(res.data.data);
+    }).catch(err => {
+      console.log(err)
     })
     setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
 
     api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
       setClientList(res.data.data);
 
+    }).catch(err => {
+      console.log(err)
     })
 
     setIva(19)

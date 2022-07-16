@@ -48,7 +48,6 @@ function Product() {
     }
 
     api.post('/products', data).then(response => {
-      console.log(response.status)
 
       if (response.status === 201) {
         history.push('/product');
@@ -56,6 +55,8 @@ function Product() {
       } else {
         alert('Datos incorrectos');
       }
+    }).catch(error => {
+      console.log(error);
     })
 
   }
@@ -75,7 +76,6 @@ function Product() {
     }
 
     api.put(`/products/${productId}`, data).then(response => {
-      console.log(response.status)
 
       if (response.status === 200) {
         history.push('/product');
@@ -83,12 +83,16 @@ function Product() {
       } else {
         alert('Datos incorrectos');
       }
+    }).catch(error => {
+      console.log(error);
     })
   }
 
   useEffect(() => {
     api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
       setProductList(res.data.data);
+    }).catch(err => {
+      console.log(err)
     })
     setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
   }, [])
