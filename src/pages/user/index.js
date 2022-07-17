@@ -3,9 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import { RiUserAddFill } from 'react-icons/ri';
+import { useHistory } from "react-router-dom";
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
+
 
 function User() {
   const [userList, setUserList] = useState([]);
@@ -16,6 +18,11 @@ function User() {
   const [operatorId, setOperatorId] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [idUser, setIdUser] = useState("");
+  const history = useHistory();
+
+  function reloadField() {
+    window.location.reload();
+  }
 
   function changeStates(user) {
     setName(user.name);
@@ -42,8 +49,7 @@ function User() {
       console.log(response.status)
 
       if (response.status === 201) {
-        // history.push('/dashboard');
-        console.log(response);
+        reloadField()
       } else {
         alert('Datos incorrectos');
       }
@@ -69,8 +75,7 @@ function User() {
       console.log(response.status)
 
       if (response.status === 200) {
-        // history.push('/dashboard');
-        console.log(response);
+        reloadField()
       } else {
         alert('Datos incorrectos');
       }
@@ -80,13 +85,19 @@ function User() {
   }
 
   useEffect(() => {
-    api.get('/users/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setUserList(res.data.data);
-    }).catch(err => {
-      console.log(err)
-    })
+    const userLevel = localStorage.getItem('level');
+    if (userLevel === 'admin') {
+      api.get('/users/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+        setUserList(res.data.data);
+      }).catch(err => {
+        console.log(err)
+      })
 
-    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+      setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+    } else {
+      history.push('/');
+    }
+
   }, [])
 
   return (

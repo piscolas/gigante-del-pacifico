@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button, Form, Row } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 import { Header } from '../../components/Header';
 import { SidebarSeller } from '../../components/SidebarSeller';
 import api from '../../utils/api';
+
 
 function Sales() {
   const [productList, setProductList] = useState([]);
@@ -24,6 +26,9 @@ function Sales() {
   const [salesOffer, setSalesOffer] = useState(0);
   const [neto, setNeto] = useState(0);
   const [taxes, setTaxes] = useState(0);
+  const [sellerId, setSellerId] = useState("");
+
+  const history = useHistory();
 
   function updateField() {
     window.location.reload();
@@ -35,7 +40,7 @@ function Sales() {
     const data = {
       operatorId,
       date: new Date(),
-      sellerId: "6caf2226-8dbc-4d09-b070-ba199553f705",
+      sellerId,
       amount: neto,
       tax: ivaPrice,
       otherTaxs: taxes,
@@ -107,23 +112,33 @@ function Sales() {
 
 
   useEffect(() => {
-    api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setProductList(res.data.data)
+    const userLevel = localStorage.getItem('level');
+    const userId = localStorage.getItem('id');
+    setSellerId(userId)
 
-    }).catch(err => {
-      console.log(err)
-    })
+    if (userLevel === "seller") {
+      api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+        setProductList(res.data.data)
 
-    api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+      }).catch(err => {
+        console.log(err)
+      })
 
-      setClientList(res.data.data)
+      api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
 
-    }).catch(err => {
-      console.log(err)
-    })
+        setClientList(res.data.data)
 
-    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
-    setIva(19)
+      }).catch(err => {
+        console.log(err)
+      })
+
+      setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+      setIva(19)
+    } else {
+      history.push('/')
+    }
+
+
 
   }, [])
 

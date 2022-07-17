@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import { RiUserAddFill } from 'react-icons/ri';
+import { useHistory } from "react-router-dom";
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import api from '../../utils/api';
@@ -14,6 +15,7 @@ function Client() {
   const [operatorId, setOperatorId] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [idClient, setIdClient] = useState("");
+  const history = useHistory();
 
   function clearField() {
     window.location.reload();
@@ -72,13 +74,18 @@ function Client() {
   }
 
   useEffect(() => {
-    api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setClientList(res.data.data);
-    }).catch(err => {
-      console.log(err)
-    })
+    const userLevel = localStorage.getItem('level');
+    if (userLevel === 'admin') {
+      api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+        setClientList(res.data.data);
+      }).catch(err => {
+        console.log(err)
+      })
 
-    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+      setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+    } else {
+      history.push('/');
+    }
   }, [])
 
   return (

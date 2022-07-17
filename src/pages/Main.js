@@ -30,6 +30,7 @@ function Main() {
           localStorage.setItem('nickname', nickname);
           localStorage.setItem('operatorId', operatorId);
           localStorage.setItem('level', response.data.data[0].level);
+          localStorage.setItem('idUser', response.data.data[0].id);
 
           toast.classList.add("bg-success")
           toast.innerHTML = "<Alert variant='success'>Conexión exitosa</Alert>"

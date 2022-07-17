@@ -1,7 +1,19 @@
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
 function Dashboard() {
+  const history = useHistory();
+
+  useEffect(() => {
+    const userLevel = localStorage.getItem('level');
+    if (userLevel !== 'admin') {
+      history.push('/');
+    }
+
+  }, [])
+
   return (
     <div className="wrapper">
       <Header />

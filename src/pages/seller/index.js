@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
+import { useHistory } from "react-router-dom";
 import { Header } from '../../components/Header';
 import { SidebarSeller } from '../../components/SidebarSeller';
 import api from '../../utils/api';
+
 
 function Seller() {
   const [salesList, setSalesList] = useState([]);
@@ -18,7 +20,7 @@ function Seller() {
   const [details, setDetails] = useState([]);
   const [operatorId, setOperatorId] = useState("");
   const [isActive, setIsActive] = useState(false);
-
+  const history = useHistory();
 
   function reloadField() {
     window.location.reload();
@@ -64,13 +66,21 @@ function Seller() {
   }
 
   useEffect(() => {
-    api.get('/sales/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setSalesList(res.data.data);
-    }).catch(err => {
-      console.log(err)
+    const userLevel = localStorage.getItem('level');
 
-    })
-    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+    if (userLevel === "seller") {
+      api.get('/sales/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
+        setSalesList(res.data.data);
+      }).catch(err => {
+        console.log(err)
+
+      })
+      setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
+    } else {
+      history.push("/");
+    }
+
+
   }, [])
 
   return (
