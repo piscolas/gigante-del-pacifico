@@ -25,6 +25,10 @@ function Sales() {
   const [neto, setNeto] = useState(0);
   const [taxes, setTaxes] = useState(0);
 
+  function updateField() {
+    window.location.reload();
+  }
+
   function onSubmit(event) {
     event.preventDefault()
 
@@ -46,11 +50,10 @@ function Sales() {
     }
 
     api.post('/sales', data).then(res => {
-      console.log(res)
+      updateField()
     }).catch(err => {
       console.log(err)
     })
-
 
   }
 
@@ -66,7 +69,13 @@ function Sales() {
 
   function fetchClient(idClient) {
     api.get(`/clients/${operatorId}/${idClient}`).then(response => {
+
       setClientName(response.data.data[0].name);
+
+      if (response.status == 200) {
+        updateField()
+      }
+
     }).catch(err => {
       console.log(err)
     })
@@ -83,25 +92,31 @@ function Sales() {
       setStock(response.data.data[0].stock);
       setMDPrice(response.data.data[0].MDPrice);
       setMDPercentage(response.data.data[0].MDPercentage);
+
+      if (response.status == 200) {
+        updateField()
+      }
+
+
     }).catch(err => {
       console.log(err)
     })
 
   }
 
-  function clearField() {
-    window.location.reload();
-  }
+
 
   useEffect(() => {
     api.get('/products/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setProductList(res.data.data);
+      setProductList(res.data.data)
+
     }).catch(err => {
       console.log(err)
     })
 
     api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
-      setClientList(res.data.data);
+
+      setClientList(res.data.data)
 
     }).catch(err => {
       console.log(err)
@@ -133,7 +148,9 @@ function Sales() {
                     <Form.Select onChange={(event) => { fetchClient(event.target.value) }}>
                       <option defaultChecked>Seleccione...</option>
                       {clientList?.map(client => (
-                        <option key={client.id} value={client.id} >{client.rol}</option>
+                        <>
+                          {client.active && <option key={client.id} value={client.id} >{client.rol}</option>}
+                        </>
                       ))}
                     </Form.Select>
                   </Form.Group>
@@ -143,7 +160,9 @@ function Sales() {
                     <Form.Select onChange={(event) => fetchProduct(event.target.value)}>
                       <option defaultChecked>Seleccione...</option>
                       {productList?.map(product => (
-                        <option key={product.id} value={product.id} >{product.name}</option>
+                        <>
+                          {product.active && <option key={product.id} value={product.id} >{product.name}</option>}
+                        </>
                       ))}
                     </Form.Select>
                   </Form.Group>

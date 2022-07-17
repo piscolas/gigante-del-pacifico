@@ -15,6 +15,10 @@ function Client() {
   const [isActive, setIsActive] = useState(false);
   const [idClient, setIdClient] = useState("");
 
+  function clearField() {
+    window.location.reload();
+  }
+
   function changeStates(client) {
     setRol(client.rol);
     setName(client.name);
@@ -35,15 +39,13 @@ function Client() {
       console.log(response.status)
 
       if (response.status === 201) {
-        // history.push('/dashboard');
-        console.log(response);
+        clearField()
       } else {
         alert('Datos incorrectos');
       }
     }).catch(error => {
       console.log(error);
     })
-
   }
 
   function updateClient(event) {
@@ -60,8 +62,7 @@ function Client() {
       console.log(response.status)
 
       if (response.status === 200) {
-        // history.push('/dashboard');
-        console.log(response);
+        clearField()
       } else {
         alert('Datos incorrectos');
       }

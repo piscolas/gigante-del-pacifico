@@ -19,6 +19,12 @@ function Seller() {
   const [operatorId, setOperatorId] = useState("");
   const [isActive, setIsActive] = useState(false);
 
+
+  function reloadField() {
+    window.location.reload();
+  }
+
+
   function changeStates(sales) {
     setDate(sales.date);
     setSellerId(sales.sellerId);
@@ -48,7 +54,7 @@ function Seller() {
       console.log(response.status)
 
       if (response.status === 200) {
-        console.log(response);
+        reloadField()
       } else {
         alert('Datos incorrectos');
       }

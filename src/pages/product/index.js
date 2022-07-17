@@ -34,6 +34,10 @@ function Product() {
 
   }
 
+  function reloadField() {
+    window.location.reload();
+  }
+
   function onSubmit(event) {
     event.preventDefault()
 
@@ -50,8 +54,7 @@ function Product() {
     api.post('/products', data).then(response => {
 
       if (response.status === 201) {
-        history.push('/product');
-        console.log(response);
+        reloadField()
       } else {
         alert('Datos incorrectos');
       }
@@ -78,8 +81,7 @@ function Product() {
     api.put(`/products/${productId}`, data).then(response => {
 
       if (response.status === 200) {
-        history.push('/product');
-        console.log(response);
+        reloadField()
       } else {
         alert('Datos incorrectos');
       }

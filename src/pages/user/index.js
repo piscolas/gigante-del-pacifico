@@ -123,11 +123,11 @@ function User() {
                         <Form.Label>Nombre usuario</Form.Label>
                         <Form.Control type="text" placeholder="Nombre usuario" onChange={res => setNickname(res.target.value)} />
                       </Form.Group>
-                      <Form.Group className="mb-3 text-left" controlId="formName">
+                      <Form.Group className="mb-3 text-left" controlId="formPassword">
                         <Form.Label>Clave</Form.Label>
                         <Form.Control type="password" placeholder="Clave" onChange={res => setPassword(res.target.value)} />
                       </Form.Group>
-                      <Form.Group className="mb-3 text-left" controlId="formName">
+                      <Form.Group className="mb-3 text-left" controlId="formLevel">
                         <Form.Label>Level</Form.Label>
                         <Form.Control type="text" placeholder="Level" onChange={res => setLevel(res.target.value)} />
                       </Form.Group>
