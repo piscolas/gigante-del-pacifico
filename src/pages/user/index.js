@@ -14,7 +14,7 @@ function User() {
   const [password, setPassword] = useState("");
   const [level, setLevel] = useState("");
   const [operatorId, setOperatorId] = useState("");
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [idUser, setIdUser] = useState("");
 
   function changeStates(user) {
@@ -35,6 +35,7 @@ function User() {
       password,
       level,
       operatorId,
+      active: isActive
     }
 
     api.post('/users', data).then(response => {
@@ -56,6 +57,7 @@ function User() {
     event.preventDefault()
 
     const data = {
+      operatorId: operatorId,
       name,
       nickname,
       password,
@@ -188,6 +190,10 @@ function User() {
 
             <div className="modal-body">
               <Form className="form" onSubmit={updateClient} >
+                <Form.Group className="mb-3 text-left" controlId="formId">
+                  <Form.Label>ID</Form.Label>
+                  <Form.Control type="text" placeholder="ID" defaultValue={idUser} onChange={res => setName(res.target.value)} disabled />
+                </Form.Group>
                 <Form.Group className="mb-3 text-left" controlId="formName">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control type="text" placeholder="Nombre" defaultValue={name} onChange={res => setName(res.target.value)} />

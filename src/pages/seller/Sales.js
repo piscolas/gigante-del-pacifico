@@ -31,11 +31,12 @@ function Sales() {
     const data = {
       operatorId,
       date: new Date(),
-      sellerId: "689f56d8-3130-4e45-a223-eb5f0cf6c723",
+      sellerId: "6caf2226-8dbc-4d09-b070-ba199553f705",
       amount: neto,
       tax: ivaPrice,
       otherTaxs: taxes,
       total: totalSale,
+      active: true,
       details: [
         saleAmount,
         nameProduct,
@@ -46,6 +47,8 @@ function Sales() {
 
     api.post('/sales', data).then(res => {
       console.log(res)
+    }).catch(err => {
+      console.log(err)
     })
 
 
@@ -64,6 +67,8 @@ function Sales() {
   function fetchClient(idClient) {
     api.get(`/clients/${operatorId}/${idClient}`).then(response => {
       setClientName(response.data.data[0].name);
+    }).catch(err => {
+      console.log(err)
     })
 
   }
@@ -78,6 +83,8 @@ function Sales() {
       setStock(response.data.data[0].stock);
       setMDPrice(response.data.data[0].MDPrice);
       setMDPercentage(response.data.data[0].MDPercentage);
+    }).catch(err => {
+      console.log(err)
     })
 
   }
@@ -92,7 +99,6 @@ function Sales() {
     }).catch(err => {
       console.log(err)
     })
-    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
 
     api.get('/clients/689f56d8-3130-4e45-a223-eb5f0cf6c723').then(res => {
       setClientList(res.data.data);
@@ -101,6 +107,7 @@ function Sales() {
       console.log(err)
     })
 
+    setOperatorId("689f56d8-3130-4e45-a223-eb5f0cf6c723")
     setIva(19)
 
   }, [])
